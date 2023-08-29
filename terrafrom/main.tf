@@ -14,29 +14,29 @@ module "vpc" {
   cluster_name       = "ot-microservice-cluster"
 }
 
-# module "eks" {
-#   source               = "./eks"
-#   cluster_name         = "ot-microservice-cluster"
-#   subnet_ids           = module.vpc.private_subnet_id
-#   instance_type        = "t3.medium"
-#   desired_size         = 1
-#   max_size             = 5
-#   min_size             = 1
-#   node_group_subnet_id = module.vpc.private_subnet_id
-#   security_group_ids   = module.sg.security_group_id
-#   keyname             = module.ssh.keyname
-# }
+module "eks" {
+  source               = "./eks"
+  cluster_name         = "ot-microservice-cluster"
+  subnet_ids           = module.vpc.private_subnet_id
+  instance_type        = "t3.medium"
+  desired_size         = 1
+  max_size             = 5
+  min_size             = 1
+  node_group_subnet_id = module.vpc.private_subnet_id
+  security_group_ids   = module.sg.security_group_id
+  keyname             = module.ssh.keyname
+}
 
-# module "sg" {
-#   source   = "./sg"
-#   env      = "DEV"
-#   project  = "opstree"
-#   networks = "DMZ"
-#   vpc_id   = module.vpc.vpc_id
-#   ingress  = var.ingress
-# }
+module "sg" {
+  source   = "./sg"
+  env      = "DEV"
+  project  = "opstree"
+  networks = "DMZ"
+  vpc_id   = module.vpc.vpc_id
+  ingress  = var.ingress
+}
 
-# module "ssh" {
-#   source  = "./ssh"
-#   keyname = "ekskey"
-# }
+module "ssh" {
+  source  = "./ssh"
+  keyname = "ekskey"
+}
